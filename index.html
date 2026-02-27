@@ -1,114 +1,50 @@
 <!DOCTYPE html>
-<html>
+<html lang="ta">
 <head>
 <meta charset="UTF-8">
 <title>Vaishura Love Game 💙</title>
-
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&family=Dancing+Script:wght@600&display=swap" rel="stylesheet">
-
 <style>
-body{
-margin:0;
-font-family:'Poppins',sans-serif;
-background:linear-gradient(135deg,#000428,#004e92);
-color:white;
-display:flex;
-justify-content:center;
-align-items:center;
-height:100vh;
-overflow:hidden;
+body {
+  margin:0; font-family:'Poppins',sans-serif; overflow:hidden;
+  background:linear-gradient(135deg,#000428,#004e92);
+  color:white; display:flex; justify-content:center; align-items:center; height:100vh;
 }
 
 .hidden{display:none;}
 
 #startScreen{text-align:center;}
-
-.big-heart{
-font-size:120px;
-cursor:pointer;
-animation:blink 1.2s infinite;
-}
-
-@keyframes blink{
-0%,100%{transform:scale(1);}
-50%{transform:scale(1.2);}
-}
+.big-heart{font-size:120px;cursor:pointer;animation:blink 1.2s infinite;}
+@keyframes blink{0%,100%{transform:scale(1);}50%{transform:scale(1.2);}}
 
 .card{
-background:rgba(255,255,255,0.08);
-backdrop-filter:blur(12px);
-padding:60px;
-border-radius:30px;
-box-shadow:0 30px 60px rgba(0,0,0,0.6);
-width:85%;
-max-width:900px;
-text-align:center;
-animation:fade 0.6s ease;
+  background:rgba(255,255,255,0.08); backdrop-filter:blur(12px);
+  padding:60px; border-radius:30px; box-shadow:0 30px 60px rgba(0,0,0,0.6);
+  width:85%; max-width:900px; text-align:center; animation:fade 0.6s ease;
 }
-
-@keyframes fade{
-from{opacity:0;transform:scale(0.9);}
-to{opacity:1;transform:scale(1);}
-}
-
-.question{
-font-size:34px;
-margin-bottom:40px;
-}
-
+@keyframes fade{from{opacity:0;transform:scale(0.9);}to{opacity:1;transform:scale(1);}}
+.question{font-size:32px;margin-bottom:40px;}
 .options button{
-display:block;
-width:100%;
-margin:18px 0;
-padding:20px;
-font-size:22px;
-border:none;
-border-radius:50px;
-background:#008cff;
-color:white;
-cursor:pointer;
-transition:0.3s;
+  display:block;width:100%;margin:15px 0;padding:18px;
+  font-size:22px;border:none;border-radius:50px;background:#008cff;color:white;cursor:pointer;transition:0.3s;
 }
-
-.options button:hover{
-transform:scale(1.05);
-background:#00c3ff;
-}
+.options button:hover{transform:scale(1.05);background:#00c3ff;}
 
 .fly{
-position:fixed;
-font-size:30px;
-pointer-events:none;
-animation:fly 3s linear forwards;
+  position:fixed;font-size:30px;pointer-events:none;
+  animation:fly 3s linear forwards;
 }
-
-@keyframes fly{
-0%{opacity:1;transform:translate(0,0);}
-100%{opacity:0;transform:translate(var(--x),-700px);}
-}
+@keyframes fly{0%{opacity:1;transform:translate(0,0);}100%{opacity:0;transform:translate(var(--x),-700px);}}
 
 .popup{
-position:fixed;
-top:50%;
-left:50%;
-transform:translate(-50%,-50%);
-background:#001f3f;
-padding:40px;
-border-radius:20px;
-box-shadow:0 0 40px rgba(0,0,0,0.7);
-font-family:'Dancing Script',cursive;
-font-size:26px;
-text-align:center;
+  position:fixed; top:50%; left:50%; transform:translate(-50%,-50%);
+  background:rgba(0,31,63,0.9); padding:40px; border-radius:20px;
+  box-shadow:0 0 40px rgba(0,0,0,0.7); font-family:'Dancing Script',cursive;
+  font-size:26px; text-align:center;
 }
-
-button.small{
-margin-top:20px;
-padding:10px 20px;
-font-size:16px;
-}
+button.small{margin-top:20px;padding:10px 20px;font-size:16px;}
 </style>
 </head>
-
 <body>
 
 <div id="startScreen">
@@ -119,91 +55,53 @@ font-size:16px;
 
 <div id="game" class="hidden"></div>
 
-<audio id="correctSound" src="love.mp3"></audio>
+<audio id="loveSong" src="love.mp3"></audio>
 
 <script>
-
-/* QUESTIONS FULL SAME */
+// All 5 levels, 25 questions
 const questions = [
-
-// LEVEL 1
 {q:"Favorite color?",o:["Blue","Red","Pink","Green"],a:"Blue"},
 {q:"Future plans?",o:["Buying car","Travelling","Watching romantic movies","Maldives"],a:"Buying car"},
 {q:"Daily travel?",o:["Car","Bike","Bus","Walk"],a:"Bus"},
 {q:"Favorite food?",o:["Pizza","Burger","Biryani","Dosa"],a:"Biryani"},
 {q:"Next plan?",o:["Business","Gov Exam","Abroad","Private"],a:"Gov Exam"},
-{q:"Future babies?",o:["1","2","3","4"],a:"2"},
-{q:"Love started by?",o:["Chat","Chasing","Friend","Proposal"],a:"Proposal"},
-{q:"Favorite time?",o:["Morning","Night","Shooting Time","Noon"],a:"Night"},
-{q:"Power color?",o:["Blue","Black","White","Red"],a:"Blue"},
-{q:"Recent watching?",o:["Horror","Couple Movie","Action","Comedy"],a:"Couple Movie"},
-
-// LEVEL 2
 {q:"Fight reason?",o:["Money","Misunderstanding","Friends","Time"],a:"Misunderstanding"},
 {q:"Who says sorry first?",o:["He","She","Both","None"],a:"He"},
-{q:"Who lies more?",o:["He","She","Both","None"],a:"He"},
-{q:"Strong ah nan irukanum na enna pananum?",o:["payapudama irukanum","alugama irukanum","polambama irukanum","crct ah yosikanum"],a:"payapudama irukanum"},
-{q:"Nee enta ethachum solla nenaikuriyaa?",o:["ama","illa","neyabam vandha sluven","payama iruku"],a:"ama"},
-{q:"Angry reason?",o:["Late reply","No call","Ignore","All"],a:"All"},
 {q:"Weekend plan?",o:["Sleep","Movie","Temple","Shopping"],a:"Movie"},
 {q:"Romantic color?",o:["Blue","Pink","Red","White"],a:"Blue"},
 {q:"Favorite song?",o:["un viligalil","yaroo","anbee","alaga"],a:"un viligalil"},
-{q:"En frnds la unaku yara pudikum means kk nu nenaikura?",o:["prathi","varthini","dharani","varsha"],a:"dharani"},
-
-// LEVEL 3
 {q:"Love Yaaru side athegaml?",o:["Harishh","Vaishuu"],a:"Vaishuu"},
 {q:"Most caring?",o:["He","She","Both","None"],a:"She"},
 {q:"Daily chat timing enna?",o:["8 pm","7 pm","Anytime","3 pm"],a:"7 pm"},
-{q:"Yaru athegama miss panuvaaa?",o:["Vaishu","Ragava"],a:"Vaishu"},
 {q:"First memory?",o:["Call","Meet","Text","Proposal"],a:"Meet"},
 {q:"Favv movie of vaishuu?",o:["3","dada","sachein","Pink"],a:"sachein"},
-{q:"Special word?",o:["Love","Care","Trust","Promise"],a:"Promise"},
 {q:"Long drive?",o:["Bike","Car","Bus","Train"],a:"Bike"},
-{q:"Favorite emoji?",o:["😊","😉","😍","😢"],a:"😊"},
-{q:"Unga family laa enaku yara pudikum?",o:["un appa","un akka","un brother ragul","un amma"],a:"un amma"},
-
-// LEVEL 4
 {q:"Nama fav chat app?",o:["WP","INSTA","TELEGRAM","NONE"],a:"WP"},
 {q:"Most fight time?",o:["Night","Morning","Evening","Afternoon"],a:"Night"},
 {q:"Fix fight?",o:["Talk","Ignore","Sleep","Shout"],a:"Talk"},
 {q:"Love Anniversary?",o:["sep 7","oct 15","Sep 6","aug 2"],a:"sep 7"},
-{q:"Forever?",o:["Yes","No","Maybe","Confuse"],a:"Yes"},
-{q:"Jealous?",o:["Little","No","High","Never"],a:"No"},
-{q:"Daily miss?",o:["Yes","No","Sometimes","Rare"],a:"Yes"},
 {q:"Cute fight yaaru panuvaaa?",o:["Vaishu","Ragava"],a:"Ragava"},
-{q:"Fav number?",o:["11.11","0310","2671","143"],a:"0310"},
-{q:"Bonding Strong ah iruka enna panuvaa?",o:["Neraya love","Thituva","Timepass","sry kepa"],a:"Neraya love"},
-
-// LEVEL 5
 {q:"Future plan?",o:["Marriage","Break","Friend","Unknown"],a:"Marriage"},
 {q:"Trust level?",o:["100%","50%","70%","0%"],a:"100%"},
 {q:"Care Yaaru Athegama Panuvaa?",o:["Naan","Nee","High"],a:"Naan"},
 {q:"Nama love ah yapa v2 la sluvaa?",o:["Next yr","2 yrs","indhu marg after"],a:"Next yr"},
 {q:"Nama sanda potu athegama pesama irundha days?",o:["1 week","1 day","2 days","1 month"],a:"1 week"},
-{q:"Happy Words?",o:["pondatii","chlo","bujji","thango"],a:"pondatii"},
-{q:"Life la Fav Memo?",o:["Tuition","School","College","Home"],a:"Tuition"},
-{q:"Best memory?",o:["Meet","Chat","Call","All"],a:"All"},
-{q:"Final ah nama love endup yapudi agum nenaikura?",o:["Marriage lah","Separate","Pirinjuruvom","Friends"],a:"Marriage lah"},
-{q:"Nan enna change panikanum nenaikura nee?",o:["Over angry","Sad","Confuse","Tension"],a:"Over angry"}
-
+{q:"Happy Words?",o:["pondatii","chlo","bujji","thango"],a:"pondatii"}
 ];
 
-let current=0;
-let score=0;
-let correctAnswers=[];
-let allAnswers=[];
+let current=0, score=0, correctAnswers=[], allAnswers=[];
 
 function startGame(){
 document.getElementById("startScreen").classList.add("hidden");
-document.getElementById("game").classList.remove("hidden");
-loadQuestion();
+fly("💙");
+setTimeout(()=>{document.getElementById("game").classList.remove("hidden"); loadQuestion(); document.getElementById("loveSong").play();}, 1500);
 }
 
 function loadQuestion(){
 let q=questions[current];
 document.getElementById("game").innerHTML=
 `<div class="card">
-<h3>Level ${Math.floor(current/10)+1}</h3>
+<h3>Level ${Math.floor(current/5)+1}</h3>
 <div class="question">${q.q}</div>
 <div class="options">
 ${q.o.map(opt=>`<button onclick="selectAnswer('${opt}')">${opt}</button>`).join("")}
@@ -214,31 +112,15 @@ ${q.o.map(opt=>`<button onclick="selectAnswer('${opt}')">${opt}</button>`).join(
 function selectAnswer(option){
 let correct=questions[current].a;
 allAnswers.push(`Q${current+1}: ${option}`);
-
-if(option===correct){
-score++;
-correctAnswers.push(`Q${current+1}: ${option}`);
-document.getElementById("correctSound").play();
-fly("💙");
-}else{
-fly("😢");
-}
-
+if(option===correct){score++; correctAnswers.push(`Q${current+1}: ${option}`); fly("💙");}
+else{fly("😢");}
 current++;
-
-if(current%10===0 && current<questions.length){
-setTimeout(()=>showLevelPopup(),800);
-}else{
-nextStep();
-}
+if(current%5===0 && current<questions.length){setTimeout(()=>showLevelPopup(),800);} else{nextStep();}
 }
 
 function nextStep(){
-if(current<questions.length){
-setTimeout(loadQuestion,800);
-}else{
-showFinal();
-}
+if(current<questions.length){setTimeout(loadQuestion,800);}
+else{showFinal();}
 }
 
 function showLevelPopup(){
@@ -246,11 +128,10 @@ let messages=[
 "உன் சிரிப்பு தான் என் உலகம் 💙\nஉன் அருகில் தான் என் நிம்மதி",
 "உன் குரல் கேட்டால் மனசு அமைதி 💙\nஉன்னோடு வாழ்ந்தால் வாழ்வு அர்த்தம்",
 "உன் காதல் என் பலம் 💙\nஉன் நினைவு என் சுவாசம்",
-"நம்ம பந்தம் அழியாதது 💙\nநம்ம காதல் நிலையானது"
+"நம்ம பந்தம் அழியாதது 💙\nநம்ம காதல் நிலையானது",
+"உன் நினைவில் என் நிமிர்ச்சி 💙\nஎப்போதும் என் காதல் நிலை"
 ];
-
-let msg=messages[(current/10)-1];
-
+let msg=messages[(current/5)-1];
 let div=document.createElement("div");
 div.className="popup";
 div.innerHTML=`${msg.replace("\n","<br>")}<br><button class="small" onclick="closePopup()">Next Level ➜</button>`;
@@ -264,41 +145,28 @@ nextStep();
 
 function showFinal(){
 localStorage.setItem("LoveGameRecord",JSON.stringify(allAnswers));
-
 document.getElementById("game").innerHTML=
 `<div class="card">
 <h1>💙 Game Completed 💙</h1>
 <h2>Love Score: ${Math.round(score/questions.length*100)}%</h2>
-
 <h3>Correct Answers:</h3>
 ${correctAnswers.map(a=>`<p>${a}</p>`).join("")}
-
 <button onclick="playSong()">▶ Play Recorded Song</button>
 <button onclick="viewAll()">📄 View All Answers</button>
 </div>`;
 }
 
-function playSong(){
-document.getElementById("correctSound").play();
-}
-
-function viewAll(){
-alert(JSON.parse(localStorage.getItem("LoveGameRecord")).join("\n"));
-}
+function playSong(){document.getElementById("loveSong").play();}
+function viewAll(){alert(JSON.parse(localStorage.getItem("LoveGameRecord")).join("\n"));}
 
 function fly(symbol){
 for(let i=0;i<15;i++){
 let span=document.createElement("span");
-span.className="fly";
-span.innerText=symbol;
-span.style.left=Math.random()*100+"vw";
-span.style.top=Math.random()*100+"vh";
-span.style.setProperty('--x',(Math.random()*600-300)+"px");
-document.body.appendChild(span);
-setTimeout(()=>span.remove(),3000);
+span.className="fly"; span.innerText=symbol;
+span.style.left=Math.random()*100+"vw"; span.style.top=Math.random()*100+"vh";
+span.style.setProperty('--x',(Math.random()*600-300)+"px"); document.body.appendChild(span);
+setTimeout(()=>span.remove(),3000);}
 }
-}
-
 </script>
 </body>
 </html>
